@@ -14,15 +14,16 @@ class CoustomPhotoBrowser: SKPhotoBrowser {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+//        self.isAutoHideControls = false
     }
     
     override func createPaginationView() -> SKPaginationView {
         let sk = SKPaginationView(frame: view.frame, browser: self)
-//        sk.backgroundColor = UIColor.init(white: 0, alpha: 0.6)
-        sk.direction = .Up
-        sk.margin = 20
-        sk.paginationButtonHidden = true
+        sk.backgroundColor = UIColor.init(white: 1, alpha: 0.6)
+        sk.direction = .NavigationBar
+        sk.margin = 0
+//        sk.paginationButtonHidden = true
+        sk.height = 64
         return sk
     }
     

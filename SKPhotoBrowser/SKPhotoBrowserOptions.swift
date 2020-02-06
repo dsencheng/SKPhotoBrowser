@@ -50,8 +50,8 @@ public struct SKPhotoBrowserOptions {
 }
 
 public struct SKButtonOptions {
-    public static var closeButtonPadding: CGPoint = CGPoint(x: 5, y: 20)
-    public static var deleteButtonPadding: CGPoint = CGPoint(x: 5, y: 20)
+    public static var closeButtonPadding: CGPoint = CGPoint(x: 0, y: 0)
+    public static var deleteButtonPadding: CGPoint = CGPoint(x: 0, y: 0)
 }
 
 public struct SKCaptionOptions {

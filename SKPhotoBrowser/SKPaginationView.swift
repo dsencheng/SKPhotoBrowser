@@ -12,7 +12,7 @@ private let bundle = Bundle(for: SKPhotoBrowser.self)
 
 public class SKPaginationView: UIView {
     public enum SKPaginationViewDirection {
-        case Up,Down
+        case Up,Down,NavigationBar
     }
     var counterLabel: UILabel?
     var prevButton: UIButton?
@@ -33,7 +33,13 @@ public class SKPaginationView: UIView {
             updateFrame()
         }
     }
-    private var extraMargin: CGFloat = SKMesurement.isPhoneX ? 40 : 0
+    public var height: CGFloat = 100 {
+        didSet {
+            updateFrame()
+        }
+    }
+    private var extraMargin: CGFloat = SKMesurement.isPhoneX ? 40 : 20
+    
     private var superFrame: CGRect = .zero
     fileprivate weak var browser: SKPhotoBrowser?
     
@@ -73,7 +79,24 @@ public class SKPaginationView: UIView {
         return nil
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if direction == .NavigationBar {
+            counterLabel?.center = CGPoint(x: frame.width / 2, y: frame.height / 2 + extraMargin / 2)
+            prevButton?.center = CGPoint(x: frame.width / 2 - 100, y: frame.height / 2 + extraMargin / 2)
+            nextButton?.center = CGPoint(x: frame.width / 2 + 100, y: frame.height / 2 + extraMargin / 2)
+        } else {
+            counterLabel?.center = CGPoint(x: frame.width / 2, y: frame.height / 2)
+            prevButton?.center = CGPoint(x: frame.width / 2 - 100, y: frame.height / 2)
+            nextButton?.center = CGPoint(x: frame.width / 2 + 100, y: frame.height / 2)
+        }
+    }
+    
     func updateFrame(frame: CGRect) {
+        guard superFrame != frame else {
+            return
+        }
         superFrame = frame
         updateFrame()
     }
@@ -81,9 +104,12 @@ public class SKPaginationView: UIView {
     private func updateFrame() {
         switch direction {
         case .Down:
-            self.frame = CGRect(x: 0, y: superFrame.height - margin - extraMargin, width: superFrame.width, height: 100)
+            self.frame = CGRect(x: 0, y: superFrame.height - margin, width: superFrame.width, height: height)
         case .Up:
-            self.frame = CGRect(x: 0, y: margin + extraMargin, width: superFrame.width, height: 100)
+            self.frame = CGRect(x: 0, y: margin , width: superFrame.width, height: height)
+        case .NavigationBar:
+            
+            self.frame = CGRect(x: 0, y: 0, width: superFrame.width, height: 44 + extraMargin)
         }
     }
     
@@ -103,10 +129,9 @@ public class SKPaginationView: UIView {
     
     func setControlsHidden(hidden: Bool) {
         let alpha: CGFloat = hidden ? 0.0 : 1.0
-        
-        UIView.animate(withDuration: 0.35,
-                       animations: { () -> Void in self.alpha = alpha },
-                       completion: nil)
+        UIView.animate(withDuration: 0.3) {
+            self.alpha = alpha
+        }
     }
 }
 

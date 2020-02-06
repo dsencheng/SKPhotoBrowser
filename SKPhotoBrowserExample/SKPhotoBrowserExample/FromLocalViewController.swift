@@ -122,9 +122,9 @@ private extension FromLocalViewController {
     }
     
     func createLocalPhotos() -> [SKPhotoProtocol] {
-        return (0..<12).map { (i: Int) -> SKPhotoProtocol in
+        return (0...13).map { (i: Int) -> SKPhotoProtocol in
             let photo = SKPhoto.photoWithImage(UIImage(named: "image\(i).jpg")!)
-            photo.caption = caption[i]
+            photo.caption = caption[i%10]
             return photo
         }
     }

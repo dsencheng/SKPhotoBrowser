@@ -17,6 +17,7 @@ open class SKPhotoBrowser: UIViewController {
     open var initPageIndex: Int = 0
     open var activityItemProvider: UIActivityItemProvider?
     open var photos: [SKPhotoProtocol] = []
+    open var isAutoHideControls: Bool = true
     
     internal lazy var pagingScrollView: SKPagingScrollView = SKPagingScrollView(frame: self.view.frame, browser: self)
     
@@ -109,8 +110,8 @@ open class SKPhotoBrowser: UIViewController {
         configureAppearance()
         configurePagingScrollView()
         configureGestureControl()
-        configureActionView()
         configurePaginationView()
+        configureActionView()
         configureToolbar()
 
         animator.willPresent(self)
@@ -338,6 +339,9 @@ public extension SKPhotoBrowser {
     func hideControlsAfterDelay() {
         // reset
         cancelControlHiding()
+        if !isAutoHideControls {
+            return
+        }
         // start
         controlVisibilityTimer = Timer.scheduledTimer(timeInterval: 4.0, target: self, selector: #selector(SKPhotoBrowser.hideControls(_:)), userInfo: nil, repeats: false)
     }
@@ -358,7 +362,7 @@ public extension SKPhotoBrowser {
     }
     
     func areControlsHidden() -> Bool {
-        return paginationView.alpha == 0.0
+        return paginationView.alpha != 1.0
     }
     
     func getCurrentPageIndex() -> Int {

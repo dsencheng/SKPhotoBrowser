@@ -30,6 +30,7 @@
 		A6A7B7811C9578E30025AC07 /* SKPhotoBrowser.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8909B5711BC792570060A053 /* SKPhotoBrowser.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D71B3A5F23EC0A9900B033B8 /* image11.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D71B3A5E23EC0A9900B033B8 /* image11.jpg */; };
 		D71B3A6123EC104500B033B8 /* CoustomPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71B3A6023EC104500B033B8 /* CoustomPhotoBrowser.swift */; };
+		D7FE1F7D23EC3C0A00D59E00 /* image13.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7FE1F7B23EC3C0A00D59E00 /* image13.jpg */; };
 		EB55C74F2E19BE99A3DD28FF /* Pods_SKPhotoBrowserExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC185D4686B5554C11523E7C /* Pods_SKPhotoBrowserExample.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		89FC5DBA1D54A04900F1BE52 /* FromWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FromWebViewController.swift; sourceTree = "<group>"; };
 		D71B3A5E23EC0A9900B033B8 /* image11.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image11.jpg; sourceTree = "<group>"; };
 		D71B3A6023EC104500B033B8 /* CoustomPhotoBrowser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoustomPhotoBrowser.swift; sourceTree = "<group>"; };
+		D7FE1F7B23EC3C0A00D59E00 /* image13.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image13.jpg; sourceTree = "<group>"; };
 		FC185D4686B5554C11523E7C /* Pods_SKPhotoBrowserExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SKPhotoBrowserExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -171,6 +173,7 @@
 				8909B5771BC792DC0060A053 /* image10.jpg */,
 				D71B3A5E23EC0A9900B033B8 /* image11.jpg */,
 				8909B5781BC792DC0060A053 /* image12.jpg */,
+				D7FE1F7B23EC3C0A00D59E00 /* image13.jpg */,
 			);
 			path = SampleImages;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				8909B5821BC792DC0060A053 /* image1.jpg in Resources */,
 				8909B5831BC792DC0060A053 /* image10.jpg in Resources */,
 				8909B58C1BC792DC0060A053 /* image9.jpg in Resources */,
+				D7FE1F7D23EC3C0A00D59E00 /* image13.jpg in Resources */,
 				8909B5651BC792150060A053 /* LaunchScreen.storyboard in Resources */,
 				8909B5621BC792150060A053 /* Assets.xcassets in Resources */,
 				8909B5891BC792DC0060A053 /* image6.jpg in Resources */,

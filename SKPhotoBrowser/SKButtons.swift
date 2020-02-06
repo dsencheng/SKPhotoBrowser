@@ -25,7 +25,7 @@ class SKButton: UIButton {
     fileprivate let size: CGSize = CGSize(width: 44, height: 44)
     fileprivate var marginX: CGFloat = 0
     fileprivate var marginY: CGFloat = 0
-    fileprivate var extraMarginY: CGFloat = SKMesurement.isPhoneX ? 10 : 0
+    fileprivate var extraMarginY: CGFloat = SKMesurement.isPhoneX ? 44 : 20
     
     func setup(_ imageName: String) {
         backgroundColor = .clear
@@ -87,7 +87,7 @@ class SKCloseButton: SKImageButton {
         super.init(frame: frame)
         setup(imageName)
         showFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
-        hideFrame = CGRect(x: marginX, y: -marginY, width: size.width, height: size.height)
+        hideFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
     }
 }
 
@@ -114,6 +114,6 @@ class SKDeleteButton: SKImageButton {
         super.init(frame: frame)
         setup(imageName)
         showFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
-        hideFrame = CGRect(x: marginX, y: -marginY, width: size.width, height: size.height)
+        hideFrame = CGRect(x: marginX, y: marginY, width: size.width, height: size.height)
     }
 }
