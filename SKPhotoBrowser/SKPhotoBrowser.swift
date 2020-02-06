@@ -261,11 +261,22 @@ open class SKPhotoBrowser: UIViewController {
             present(activityViewController, animated: true, completion: nil)
         }
     }
+    
+    // MARK: - Public Function
+    open func createActionView() -> SKActionView {
+        return SKActionView(frame: view.frame, browser: self)
+    }
+    
+    open func createPaginationView() -> SKPaginationView {
+        return SKPaginationView(frame: view.frame, browser: self)
+    }
+    
 }
 
 // MARK: - Public Function For Customizing Buttons
 
 public extension SKPhotoBrowser {
+    
     func updateCloseButton(_ image: UIImage, size: CGSize? = nil) {
         actionView.updateCloseButton(image: image, size: size)
     }
@@ -564,12 +575,12 @@ private extension SKPhotoBrowser {
     }
     
     func configureActionView() {
-        actionView = SKActionView(frame: view.frame, browser: self)
+        actionView = createActionView()
         view.addSubview(actionView)
     }
 
     func configurePaginationView() {
-        paginationView = SKPaginationView(frame: view.frame, browser: self)
+        paginationView = createPaginationView()
         view.addSubview(paginationView)
     }
     

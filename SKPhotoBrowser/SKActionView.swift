@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SKActionView: UIView {
+public class SKActionView: UIView {
     internal weak var browser: SKPhotoBrowser?
     internal var closeButton: SKCloseButton!
     internal var deleteButton: SKDeleteButton!
@@ -32,7 +32,7 @@ class SKActionView: UIView {
         configureDeleteButton()
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let view = super.hitTest(point, with: event) {
             if closeButton.frame.contains(point) || deleteButton.frame.contains(point) {
                 return view

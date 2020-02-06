@@ -10,13 +10,31 @@ import UIKit
 
 private let bundle = Bundle(for: SKPhotoBrowser.self)
 
-class SKPaginationView: UIView {
+public class SKPaginationView: UIView {
+    public enum SKPaginationViewDirection {
+        case Up,Down
+    }
     var counterLabel: UILabel?
     var prevButton: UIButton?
     var nextButton: UIButton?
-    private var margin: CGFloat = 100
+    public var paginationButtonHidden: Bool = false {
+        didSet {
+            prevButton?.isHidden = paginationButtonHidden
+            nextButton?.isHidden = paginationButtonHidden
+        }
+    }
+    public var direction: SKPaginationViewDirection = .Down {
+        didSet {
+            updateFrame()
+        }
+    }
+    public var margin: CGFloat = 100 {
+        didSet {
+            updateFrame()
+        }
+    }
     private var extraMargin: CGFloat = SKMesurement.isPhoneX ? 40 : 0
-    
+    private var superFrame: CGRect = .zero
     fileprivate weak var browser: SKPhotoBrowser?
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,10 +45,11 @@ class SKPaginationView: UIView {
         super.init(frame: frame)
     }
     
-    convenience init(frame: CGRect, browser: SKPhotoBrowser?) {
+    public convenience init(frame: CGRect, browser: SKPhotoBrowser?) {
         self.init(frame: frame)
-        self.frame = CGRect(x: 0, y: frame.height - margin - extraMargin, width: frame.width, height: 100)
+        self.superFrame = frame
         self.browser = browser
+        direction = .Down
 
         setupApperance()
         setupCounterLabel()
@@ -40,7 +59,7 @@ class SKPaginationView: UIView {
         update(browser?.currentPageIndex ?? 0)
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let view = super.hitTest(point, with: event) {
             if let counterLabel = counterLabel, counterLabel.frame.contains(point) {
                 return view
@@ -55,7 +74,17 @@ class SKPaginationView: UIView {
     }
     
     func updateFrame(frame: CGRect) {
-        self.frame = CGRect(x: 0, y: frame.height - margin, width: frame.width, height: 100)
+        superFrame = frame
+        updateFrame()
+    }
+    
+    private func updateFrame() {
+        switch direction {
+        case .Down:
+            self.frame = CGRect(x: 0, y: superFrame.height - margin - extraMargin, width: superFrame.width, height: 100)
+        case .Up:
+            self.frame = CGRect(x: 0, y: margin + extraMargin, width: superFrame.width, height: 100)
+        }
     }
     
     func update(_ currentPageIndex: Int) {
