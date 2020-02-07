@@ -83,7 +83,9 @@ class SKPagingScrollView: UIScrollView {
         var frame = bounds
         frame.origin.x -= sideMargin
         frame.size.width += (2 * sideMargin)
-        
+        guard self.frame != frame else {
+            return
+        }
         self.frame = frame
         
         if visiblePages.count > 0 {

@@ -22,6 +22,7 @@ class FromLocalViewController: UIViewController, UICollectionViewDataSource, UIC
         SKPhotoBrowserOptions.displayStatusbar = false
         SKPhotoBrowserOptions.displayCounterLabel = true
         SKPhotoBrowserOptions.displayBackAndForwardButton = true
+//        SKPhotoBrowserOptions.disableVerticalSwipe = true
 
         setupTestData()
         setupCollectionView()
@@ -59,6 +60,8 @@ extension FromLocalViewController {
     @objc(collectionView:didSelectItemAtIndexPath:) func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let browser = CoustomPhotoBrowser(photos: images, initialPageIndex: indexPath.row)
         browser.delegate = self
+        browser.useSystemPresentAnimation = true
+        browser.isAutoHideControls = false
         present(browser, animated: true, completion: {})
     }
     

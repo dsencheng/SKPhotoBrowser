@@ -18,6 +18,11 @@ open class SKPhotoBrowser: UIViewController {
     open var activityItemProvider: UIActivityItemProvider?
     open var photos: [SKPhotoProtocol] = []
     open var isAutoHideControls: Bool = true
+    open var useSystemPresentAnimation: Bool = false {
+        didSet {
+            setup()
+        }
+    }
     
     internal lazy var pagingScrollView: SKPagingScrollView = SKPagingScrollView(frame: self.view.frame, browser: self)
     
@@ -76,8 +81,11 @@ open class SKPhotoBrowser: UIViewController {
         self.init(nibName: nil, bundle: nil)
         self.photos = photos
         self.photos.forEach { $0.checkCache() }
-        animator.senderOriginImage = originImage
-        animator.senderViewForAnimation = animatedFromView
+        if !useSystemPresentAnimation {
+            
+            animator.senderOriginImage = originImage
+            animator.senderViewForAnimation = animatedFromView
+        }
     }
     
     public convenience init(photos: [SKPhotoProtocol], initialPageIndex: Int) {
@@ -86,8 +94,10 @@ open class SKPhotoBrowser: UIViewController {
         self.photos.forEach { $0.checkCache() }
         self.currentPageIndex = min(initialPageIndex, photos.count - 1)
         self.initPageIndex = self.currentPageIndex
-        animator.senderOriginImage = photos[currentPageIndex].underlyingImage
-        animator.senderViewForAnimation = photos[currentPageIndex] as? UIView
+        if !useSystemPresentAnimation {
+            animator.senderOriginImage = photos[currentPageIndex].underlyingImage
+            animator.senderViewForAnimation = photos[currentPageIndex] as? UIView
+        }
     }
 
     deinit {
@@ -95,13 +105,21 @@ open class SKPhotoBrowser: UIViewController {
     }
     
     func setup() {
-        modalPresentationCapturesStatusBarAppearance = true
-        modalPresentationStyle = .custom
-        modalTransitionStyle = .crossDissolve
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(handleSKPhotoLoadingDidEndNotification(_:)),
-                                               name: NSNotification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION),
-                                               object: nil)
+        if useSystemPresentAnimation {
+            modalPresentationCapturesStatusBarAppearance = false
+            modalPresentationStyle = .fullScreen
+            modalTransitionStyle = .coverVertical
+           
+        } else {
+            
+            modalPresentationCapturesStatusBarAppearance = true
+            modalPresentationStyle = .custom
+            modalTransitionStyle = .crossDissolve
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(handleSKPhotoLoadingDidEndNotification(_:)),
+                                                   name: NSNotification.Name(rawValue: SKPHOTO_LOADING_DID_END_NOTIFICATION),
+                                                   object: nil)
+        }
     }
     
     // MARK: - override
@@ -114,7 +132,11 @@ open class SKPhotoBrowser: UIViewController {
         configureActionView()
         configureToolbar()
 
-        animator.willPresent(self)
+        if !useSystemPresentAnimation {
+            animator.willPresent(self)
+        } else {
+            showButtons()
+        }
     }
     
     override open func viewWillAppear(_ animated: Bool) {
@@ -225,7 +247,14 @@ open class SKPhotoBrowser: UIViewController {
     
     open func determineAndClose() {
         delegate?.willDismissAtPageIndex?(self.currentPageIndex)
-        animator.willDismiss(self)
+        if !useSystemPresentAnimation {
+            animator.willDismiss(self)
+        } else {
+            prepareForClosePhotoBrowser()
+            dismiss(animated: true) {
+                self.delegate?.didDismissAtPageIndex?(self.currentPageIndex)
+            }
+        }
     }
     
     open func popupShare(includeCaption: Bool = true) {
@@ -450,8 +479,10 @@ internal extension SKPhotoBrowser {
         if sender.state == .began {
             firstX = zoomingScrollView.center.x
             firstY = zoomingScrollView.center.y
-            
-            hideControls()
+            if !useSystemPresentAnimation {
+                
+                hideControls()
+            }
             setNeedsStatusBarAppearanceUpdate()
         }
         
@@ -469,7 +500,8 @@ internal extension SKPhotoBrowser {
         if sender.state == .ended {
             
             if zoomingScrollView.center.y > viewHalfHeight + minOffset
-                || zoomingScrollView.center.y < viewHalfHeight - minOffset {
+//                || zoomingScrollView.center.y < viewHalfHeight - minOffset
+            {
                 
                 determineAndClose()
                 
